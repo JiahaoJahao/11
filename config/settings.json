@@ -1,0 +1,16 @@
+{
+  "language": "zh-CN",
+  "celebrityHeatThreshold": 60,
+  "celebrityWeights": {
+    "volume7d": 40,
+    "followers": 25,
+    "trend": 20,
+    "spread": 15
+  },
+  "mute": {
+    "L5": false,
+    "DIRTY": false
+  },
+  "notify": true,
+  "openXIntent": true
+}

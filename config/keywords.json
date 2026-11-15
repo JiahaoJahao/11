@@ -1,0 +1,32 @@
+{
+  "whitelist": {
+    "zh": [
+      "爆炸", "火灾", "车祸", "坠机", "空难", "坍塌", "地震", "海啸", "台风", "洪水",
+      "停电", "燃气泄漏", "枪击", "袭击", "抗议", "示威", "游行", "骚乱", "冲突",
+      "突发", "事故", "遇难", "伤亡", "救援", "疏散", "封路", "停航", "停运",
+      "恋情", "分手", "离婚", "结婚", "出轨", "绯闻", "入狱", "出狱", "被捕", "立案",
+      "塌房", "丑闻", "去世", "病危", "官宣", "分手", "复合"
+    ],
+    "en": [
+      "breaking", "explosion", "blast", "fire", "crash", "collision", "plane crash",
+      "collapse", "earthquake", "quake", "tsunami", "hurricane", "flood", "outage",
+      "blackout", "shooting", "attack", "protest", "riot", "clash", "emergency",
+      "evacuation", "casualties", "killed", "injured", "rescue", "derail",
+      "arrested", "jail", "released from jail", "out of prison", "scandal",
+      "affair", "divorce", "wedding", "dating", "breakup", "died", "death"
+    ]
+  },
+  "blacklist": {
+    "zh": [
+      "广告", "优惠券", "促销", "抽奖", "招聘", "软文", "赞助", "折扣码"
+    ],
+    "en": [
+      "sponsored", "coupon", "promo code", "giveaway", "newsletter signup",
+      "affiliate", "click here to buy"
+    ]
+  },
+  "celebritySeed": {
+    "Taylor Swift": { "followersM": 95, "trendBoost": 18, "spread": 14 },
+    "某顶流艺人": { "followersM": 40, "trendBoost": 12, "spread": 11 }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "tufa-jianting",
+  "version": "1.0.0",
+  "description": "突发监听 — 欧美与国内公开突发线索桌面雷达",
+  "main": "electron/main.js",
+  "author": "JiahaoJahao",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging",
+    "pipeline:once": "node scripts/run-pipeline-once.js",
+    "install:desktop": "bash scripts/install-desktop.sh"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.1",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}
