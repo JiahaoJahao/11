@@ -12,5 +12,6 @@
     "DIRTY": false
   },
   "notify": true,
+  "notifyMode": "in-app",
   "openXIntent": true
 }

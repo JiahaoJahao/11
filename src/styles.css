@@ -299,6 +299,115 @@ body {
   font-weight: 700;
 }
 .chip.heat { color: #f0c35a; border-color: #8a6a20; }
+.chip.demo {
+  color: #1a1610;
+  background: #d4b87a;
+  border-color: #a88a4a;
+  font-weight: 700;
+}
+.chip.zh { color: #9fd6b0; border-color: #3d6a4a; }
+.btn.demo-disabled,
+.btn:disabled.demo-disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  border-color: #6a5a38;
+  color: #d4b87a;
+}
+.media-demo {
+  display: inline-block;
+  margin: 4px 8px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.media-demo em {
+  font-style: normal;
+  color: #d4b87a;
+  margin-left: 4px;
+}
+.chip.fail {
+  color: #1a1205;
+  background: #e8a0a0;
+  border-color: #c06060;
+  font-weight: 700;
+}
+
+.orig-block {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.orig-block summary {
+  cursor: pointer;
+  color: #9eb4c0;
+  user-select: none;
+}
+.orig-block p {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 6px;
+  border: 1px dashed #314852;
+  color: #b7c8d0;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+/* 应用内推送：可多条堆积，点「我知道了」才消失 */
+.alert-stack {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  pointer-events: none;
+}
+.alert-stack.has-alerts { pointer-events: auto; }
+
+.in-app-alert {
+  pointer-events: auto;
+  background: linear-gradient(165deg, #1a2830 0%, #121a20 100%);
+  border: 1px solid #3d5a68;
+  border-left: 4px solid var(--signal);
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  animation: alertIn 0.35s ease-out both;
+}
+@keyframes alertIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.in-app-alert-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #f0c35a;
+  font-size: 0.85rem;
+}
+.in-app-alert-title {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+.in-app-alert-summary {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: #a9bec9;
+  line-height: 1.45;
+}
+.in-app-alert .btn {
+  width: 100%;
+  justify-content: center;
+}
 
 .card h3 {
   margin: 0 0 8px;

@@ -72,6 +72,9 @@
     </form>
   </dialog>
 
+  <!-- 应用内推送层：需点「我知道了」；全屏时由主进程排队，不抢焦点 -->
+  <div id="alertStack" class="alert-stack" aria-live="assertive" aria-relevant="additions"></div>
+
   <script src="app.js"></script>
 </body>
 </html>

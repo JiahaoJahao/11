@@ -1,8 +1,9 @@
 'use strict';
 
-const { app, BrowserWindow, ipcMain, shell, Notification, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, nativeImage } = require('electron');
 const path = require('path');
 const { runPipeline } = require('../lib/pipeline');
+const { isDemoUrl } = require('../lib/utils');
 
 let mainWindow = null;
 let scanTimer = null;
@@ -12,6 +13,9 @@ let runtime = {
   scanIntervalSec: 90,
   knownIds: new Set(),
 };
+
+/** Fresh leads waiting until app is focused and not fullscreen */
+const alertQueue = [];
 
 const ICON_PNG = path.join(__dirname, 'icon.png');
 const ICON_SVG = path.join(__dirname, 'icon.svg');
@@ -36,9 +40,67 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, '..', 'src', 'index.html'));
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (isDemoUrl(url)) return { action: 'deny' };
     shell.openExternal(url);
     return { action: 'deny' };
   });
+
+  const pushVisibility = () => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    mainWindow.webContents.send('app-visibility', getVisibility());
+  };
+
+  mainWindow.on('focus', () => {
+    pushVisibility();
+    flushAlertQueue();
+  });
+  mainWindow.on('blur', pushVisibility);
+  mainWindow.on('enter-full-screen', pushVisibility);
+  mainWindow.on('leave-full-screen', () => {
+    pushVisibility();
+    flushAlertQueue();
+  });
+  mainWindow.on('show', () => {
+    pushVisibility();
+    flushAlertQueue();
+  });
+}
+
+function getVisibility() {
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    return { focused: false, fullscreen: false, canShowAlerts: false };
+  }
+  const focused = mainWindow.isFocused();
+  const fullscreen = mainWindow.isFullScreen();
+  return {
+    focused,
+    fullscreen,
+    canShowAlerts: focused && !fullscreen,
+  };
+}
+
+function enqueueAlerts(cards) {
+  for (const card of cards || []) {
+    alertQueue.push({
+      id: card.id,
+      title: card.title,
+      summary: card.summary,
+      translationStatus: card.translationStatus,
+      layer: card.layer,
+      region: card.region,
+      dirty: card.dirty,
+      publishedAt: card.publishedAt,
+    });
+  }
+}
+
+function flushAlertQueue() {
+  const vis = getVisibility();
+  if (!vis.canShowAlerts) return;
+  if (!alertQueue.length) return;
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+  const batch = alertQueue.splice(0, alertQueue.length);
+  mainWindow.webContents.send('in-app-alerts', { alerts: batch });
 }
 
 async function doScan(reason = 'timer') {
@@ -63,16 +125,14 @@ async function doScan(reason = 'timer') {
         ...result,
         reason,
         freshCount: fresh.length,
+        visibility: getVisibility(),
       });
     }
 
-    if (fresh.length && Notification.isSupported()) {
-      const top = fresh[0];
-      new Notification({
-        title: '突发监听 · 新线索',
-        body: top.title.slice(0, 80),
-        icon: ICON_PNG,
-      }).show();
+    // In-app alerts only — never OS Notification / never steal fullscreen focus
+    if (fresh.length) {
+      enqueueAlerts(fresh);
+      flushAlertQueue();
     }
 
     scheduleNext(result.intervalSec);
@@ -114,14 +174,26 @@ function setupIpc() {
     };
   });
   ipcMain.handle('open-external', async (_e, url) => {
-    if (url) await shell.openExternal(url);
-    return true;
+    if (!url) return { ok: false, blocked: true, reason: '无链接' };
+    // Allow X compose intent even when draft mentions demo sources
+    const isXIntent =
+      /^https?:\/\/(twitter\.com|x\.com)\/intent\/(tweet|post)/i.test(String(url));
+    if (!isXIntent && isDemoUrl(url)) {
+      return { ok: false, blocked: true, reason: '演示数据' };
+    }
+    await shell.openExternal(url);
+    return { ok: true, blocked: false };
   });
   ipcMain.handle('app-paths', async () => ({
     root: path.join(__dirname, '..'),
     iconPng: ICON_PNG,
     iconSvg: ICON_SVG,
   }));
+  ipcMain.handle('get-visibility', async () => getVisibility());
+  ipcMain.handle('flush-alerts', async () => {
+    flushAlertQueue();
+    return { queued: alertQueue.length, visibility: getVisibility() };
+  });
 }
 
 app.whenReady().then(() => {
