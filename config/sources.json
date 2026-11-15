@@ -1,0 +1,258 @@
+{
+  "scanIntervalSec": 90,
+  "degradedIntervalSec": 180,
+  "maxAgeHours": 3,
+  "layers": {
+    "L1": { "enabled": true, "label": "L1 快讯" },
+    "L2": { "enabled": true, "label": "L2 官方" },
+    "L3": { "enabled": true, "label": "L3 X高权重" },
+    "L4": { "enabled": true, "label": "L4 娱乐八卦" },
+    "L5": { "enabled": true, "label": "L5 社交现场", "muteable": true },
+    "DIRTY": { "enabled": true, "label": "脏源", "muteable": true, "tag": "脏源" }
+  },
+  "sources": [
+    {
+      "id": "bbc-world",
+      "name": "BBC World",
+      "layer": "L1",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "bbc-uk",
+      "name": "BBC UK",
+      "layer": "L1",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "npr-news",
+      "name": "NPR News",
+      "layer": "L1",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "guardian-world",
+      "name": "The Guardian World",
+      "layer": "L1",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://www.theguardian.com/world/rss",
+      "enabled": true
+    },
+    {
+      "id": "aljazeera",
+      "name": "Al Jazeera",
+      "layer": "L1",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "enabled": true
+    },
+    {
+      "id": "cnn-world",
+      "name": "CNN World",
+      "layer": "L1",
+      "region": "overseas",
+      "type": "rss",
+      "url": "http://rss.cnn.com/rss/edition_world.rss",
+      "enabled": true
+    },
+    {
+      "id": "people-news",
+      "name": "人民网要闻",
+      "layer": "L1",
+      "region": "domestic",
+      "type": "rss",
+      "url": "http://www.people.com.cn/rss/politics.xml",
+      "enabled": true
+    },
+    {
+      "id": "cna-china",
+      "name": "CNA 亚洲",
+      "layer": "L1",
+      "region": "domestic",
+      "type": "rss",
+      "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6936",
+      "enabled": true
+    },
+    {
+      "id": "ft-chinese",
+      "name": "FT中文网",
+      "layer": "L1",
+      "region": "domestic",
+      "type": "rss",
+      "url": "https://www.ftchinese.com/rss/news",
+      "enabled": true
+    },
+    {
+      "id": "usgs-quake",
+      "name": "USGS 地震",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "quake",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
+      "enabled": true,
+      "dirty": true
+    },
+    {
+      "id": "gdacs-alerts",
+      "name": "GDACS 灾害警报",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://www.gdacs.org/xml/rss.xml",
+      "enabled": true,
+      "dirty": true
+    },
+    {
+      "id": "hn-frontpage",
+      "name": "Hacker News 热帖（趋势占位）",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://hnrss.org/frontpage",
+      "enabled": true,
+      "dirty": true
+    },
+    {
+      "id": "l2-nhc",
+      "name": "美国飓风中心（官方）",
+      "layer": "L2",
+      "region": "overseas",
+      "type": "rss",
+      "url": "https://www.nhc.noaa.gov/index-at.xml",
+      "enabled": true
+    },
+    {
+      "id": "l2-mock-cn-emergency",
+      "name": "国内应急通报（mock）",
+      "layer": "L2",
+      "region": "domestic",
+      "type": "mock",
+      "enabled": true,
+      "mockItems": [
+        {
+          "title": "某市应急局通报：化工厂泄漏已控，周边疏散中",
+          "summary": "地方应急管理部门通报化学泄漏事故，救援进行中。",
+          "url": "https://example.com/emergency/mock-cn-1",
+          "ageMinutes": 35
+        }
+      ]
+    },
+    {
+      "id": "l3-mock-x",
+      "name": "X 高权重突发账号（mock）",
+      "layer": "L3",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": true,
+      "mockItems": [
+        {
+          "title": "Breaking: major highway pile-up reported near LA",
+          "summary": "Witness accounts of multi-vehicle crash; traffic halted. Unverified social tip.",
+          "url": "https://x.com/example/status/mock-l3-1",
+          "ageMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "l4-mock-gossip",
+      "name": "娱乐八卦源（mock）",
+      "layer": "L4",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": true,
+      "mockItems": [
+        {
+          "title": "Celebrity court update: high-profile star released from jail",
+          "summary": "Gossip outlets claim a US celebrity was released after short detention. Heat score applied.",
+          "url": "https://example.com/gossip/mock-1",
+          "ageMinutes": 40,
+          "celebrity": "Taylor Swift",
+          "gossip": true
+        },
+        {
+          "title": "国内艺人恋情传闻升温",
+          "summary": "多条娱乐号同时转发同一对明星恋情说法，待核实。",
+          "url": "https://example.com/gossip/mock-cn-1",
+          "ageMinutes": 55,
+          "celebrity": "某顶流艺人",
+          "gossip": true,
+          "region": "domestic"
+        }
+      ]
+    },
+    {
+      "id": "l5-mock-ugc",
+      "name": "社交现场 UGC（mock）",
+      "layer": "L5",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": true,
+      "mockItems": [
+        {
+          "title": "Eyewitness: explosion heard downtown, smoke visible",
+          "summary": "Geo-tagged posts mention blast and emergency response. Newer than wire copy.",
+          "url": "https://x.com/example/status/mock-l5-1",
+          "ageMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "dirty-tg-placeholder",
+      "name": "TG 突发群（配置入口）",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": false,
+      "dirty": true,
+      "placeholder": true,
+      "note": "填写公开频道/导出接口后启用",
+      "mockItems": []
+    },
+    {
+      "id": "dirty-discord-placeholder",
+      "name": "Discord 突发群（配置入口）",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": false,
+      "dirty": true,
+      "placeholder": true,
+      "note": "填写 webhook/公开频道后启用",
+      "mockItems": []
+    },
+    {
+      "id": "dirty-scanner-placeholder",
+      "name": "欧美 Scanner（配置入口）",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": false,
+      "dirty": true,
+      "placeholder": true,
+      "note": "填写公开 scanner 音频转写/RSS 后启用",
+      "mockItems": []
+    },
+    {
+      "id": "dirty-anon-placeholder",
+      "name": "匿名板（配置入口）",
+      "layer": "DIRTY",
+      "region": "overseas",
+      "type": "mock",
+      "enabled": false,
+      "dirty": true,
+      "placeholder": true,
+      "note": "填写公开板 RSS 后启用",
+      "mockItems": []
+    }
+  ]
+}
